@@ -85,21 +85,10 @@ for (i in c("NO", "0.25", "0.125")) {
   color_palette <- c("plum1", "aquamarine", "steelblue4", "deepskyblue", "purple4", "green4", "deeppink2" )
   
   if (i == "0.125") {
-    graph_boxplot_segment <- ggplot(IBD_clean_2cM, aes(x = Dataset_Continent, y = IBD_segment, fill = Dataset_Continent)) +
-      geom_boxplot(alpha=0.6) +
-      scale_fill_manual(name = "Datasets", values=color_palette) +
-      labs(x = element_blank(), y = paste0("Pihat ", i), title = "All IBD segments") +
-      theme(axis.text = element_text(face="bold", size=20),
-            axis.title = element_text(face="bold", size=40),
-            plot.title = element_text(face="bold", size = 38, hjust = 0.5),
-            legend.position = "none") + 
-      ylim(0,310) +
-      annotate("text", x = 1:7, y = 310, label = paste0("n = ", number), size = 13) 
-    
     graph_boxplot_tot <- ggplot(data_nbr_tot, aes(x = Dataset_Continent, y = Total, fill = Dataset_Continent)) +
       geom_boxplot(alpha=0.6) +
       scale_fill_manual(name = "Datasets", values=color_palette) +
-      labs(x = element_blank(), y = element_blank(), title = "Total IBD segments length") +
+      labs(x = element_blank(), y = element_blank(), title = "Sum of IBD segments length") +
       theme(axis.text = element_text(face="bold", size=20),
             axis.title = element_text(face="bold", size=40),
             plot.title = element_text(face="bold", size = 38, hjust = 0.5),
@@ -110,7 +99,7 @@ for (i in c("NO", "0.25", "0.125")) {
     graph_boxplot_nbr <- ggplot(data_nbr_tot, aes(x = Dataset_Continent, y = Count, fill = Dataset_Continent)) +
       geom_boxplot(alpha=0.6) +
       scale_fill_manual(name = "Datasets", values=color_palette) +
-      labs(x = element_blank(), y = element_blank(), title = "Number IBD segments") +
+      labs(x = element_blank(), y = element_blank(), title = "Number of IBD segments") +
       theme(axis.text = element_text(face="bold", size=20),
             axis.title = element_text(face="bold", size=40),
             plot.title = element_text(face="bold", size = 38, hjust = 0.5),
@@ -119,17 +108,6 @@ for (i in c("NO", "0.25", "0.125")) {
       annotate("text", x = 1:7, y = 270, label = paste0("n = ", number), size = 13) 
     
   } else {
-    graph_boxplot_segment <- ggplot(IBD_clean_2cM, aes(x = Dataset_Continent, y = IBD_segment, fill = Dataset_Continent)) +
-      geom_boxplot(alpha=0.6) +
-      scale_fill_manual(name = "Datasets", values=color_palette) +
-      labs(x = element_blank(), y = paste0("Pihat ", i), title = element_blank()) +
-      theme(axis.text = element_text(face="bold", size=20),
-            axis.title = element_text(face="bold", size=40),
-            plot.title = element_text(face="bold", size = 38, hjust = 0.5),
-            legend.position = "none") + 
-      ylim(0,310) +
-      annotate("text", x = 1:7, y = 310, label = paste0("n = ", number), size = 13) 
-    
     graph_boxplot_tot <- ggplot(data_nbr_tot, aes(x = Dataset_Continent, y = Total, fill = Dataset_Continent)) +
       geom_boxplot(alpha=0.6) +
       scale_fill_manual(name = "Datasets", values=color_palette) +
@@ -155,7 +133,6 @@ for (i in c("NO", "0.25", "0.125")) {
     } 
     
   ### Save graphics
-  assign(paste0("graph_boxplot_segment_pihat", i),  graph_boxplot_segment)
   assign(paste0("graph_boxplot_tot_pihat", i),  graph_boxplot_tot)
   assign(paste0("graph_boxplot_nbr_pihat", i),  graph_boxplot_nbr)
 
@@ -165,9 +142,9 @@ for (i in c("NO", "0.25", "0.125")) {
 
 
 ### Put in one graph ###
-plt_all <- ggarrange(graph_boxplot_segment_pihat0.125, graph_boxplot_tot_pihat0.125, graph_boxplot_nbr_pihat0.125,  graph_boxplot_segment_pihat0.25, graph_boxplot_tot_pihat0.25, graph_boxplot_nbr_pihat0.25, graph_boxplot_segment_pihatNO, graph_boxplot_tot_pihatNO, graph_boxplot_nbr_pihatNO,  ncol=3, nrow=3)
+plt_all <- ggarrange(graph_boxplot_tot_pihat0.125, graph_boxplot_nbr_pihat0.125, graph_boxplot_tot_pihat0.25, graph_boxplot_nbr_pihat0.25,  graph_boxplot_tot_pihatNO, graph_boxplot_nbr_pihatNO,  ncol=3, nrow=3)
 
 ### Save the graphic ###
-png(file = "/your/path/graph.png", units="in", width=50, height=36, res=600)
+png(file = "/your/path/graph.png", units="in", width=35, height=36, res=600)
 plt_all
 dev.off()
